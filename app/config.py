@@ -1,5 +1,5 @@
 """
-PDFToolKit Web — Konfigürasyon Ayarları
+EditPDF — Konfigürasyon Ayarları
 Versiyon bilgileri, sabitler ve ayarlar burada tutulur.
 """
 
@@ -14,16 +14,17 @@ from dotenv import load_dotenv
 # PATCH: Hata düzeltme
 # BUILD: Her değişiklik için artan 4 basamaklı sayaç
 APP_VERSION = "1.0.0"
-APP_BUILD = "0004"
+APP_BUILD = "0005"  # bump_build.py tarafından otomatik yönetilir
 APP_VERSION_FULL = f"{APP_VERSION}.{APP_BUILD}"
 APP_VERSION_DATE = "2026-04-20"
 APP_VERSION_NOTES = [
     "#0001 — Proje iskeleti, Streamlit web arayüzü başlangıç",
     "#0002 — 7 tab: Birleştir, Böl, Sıkıştır, Şifrele, Dönüştür, Filigran, Sayfa Yönetimi",
+    "#0005 — EditPDF markalaması ve modern UI tasarımı",
 ]
 
 # ── Uygulama Sabitleri ─────────────────────────────────────────
-APP_NAME = "PDFToolKit Web"
+APP_NAME = "EditPDF"
 APP_ICON = "📄"
 
 # Desteklenen dosya uzantıları
@@ -43,7 +44,7 @@ if _env_path.exists():
     load_dotenv(dotenv_path=_env_path)
 
 # Web'de geçici dizinler kullanılır (her oturum kendi alanı)
-_temp_dir = tempfile.mkdtemp(prefix="pdftoolkit_")
+_temp_dir = tempfile.mkdtemp(prefix="editpdf_")
 OUTPUT_DIR = Path(_temp_dir) / "output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
