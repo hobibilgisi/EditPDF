@@ -1,0 +1,22 @@
+# PDFToolKit Web - Bağımlılıklar
+
+# Web Arayüzü
+streamlit>=1.30
+
+# PDF İşleme
+pypdf>=4.0
+PyMuPDF>=1.23
+
+# Word Dönüştürme
+python-docx>=1.1
+pdf2docx>=0.5
+
+# Excel Dönüştürme
+openpyxl>=3.1
+fpdf2>=2.7
+
+# Resim İşleme
+Pillow>=10.0
+
+# Ortam Yönetimi
+python-dotenv>=1.0
