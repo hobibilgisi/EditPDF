@@ -14,9 +14,9 @@ from dotenv import load_dotenv
 # PATCH: Hata düzeltme
 # BUILD: Her değişiklik için artan 4 basamaklı sayaç
 APP_VERSION = "1.0.0"
-APP_BUILD = "0005"  # bump_build.py tarafından otomatik yönetilir
+APP_BUILD = "0006"  # bump_build.py tarafından otomatik yönetilir
 APP_VERSION_FULL = f"{APP_VERSION}.{APP_BUILD}"
-APP_VERSION_DATE = "2026-04-20"
+APP_VERSION_DATE = "2026-04-21"
 APP_VERSION_NOTES = [
     "#0001 — Proje iskeleti, Streamlit web arayüzü başlangıç",
     "#0002 — 7 tab: Birleştir, Böl, Sıkıştır, Şifrele, Dönüştür, Filigran, Sayfa Yönetimi",

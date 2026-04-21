@@ -1,7 +1,8 @@
-# PDFToolKit Web - Bağımlılıklar
+# EditPDF - Bağımlılıklar
 
 # Web Arayüzü
 streamlit>=1.30
+streamlit-autorefresh>=1.0
 
 # PDF İşleme
 pypdf>=4.0

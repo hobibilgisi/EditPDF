@@ -156,20 +156,91 @@ html, body, [class*="css"] {{
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }}
 
-/* ─── Arka plan ve konteyner ────────────────────────────────── */
+/* ─── Arka plan ──────────────────────────────────────────────── */
 [data-testid="stAppViewContainer"],
 [data-testid="stMain"],
 .stApp {{
     background: {bg_app} !important;
 }}
 [data-testid="stHeader"] {{
-    background: {bg_app} !important;
-    border-bottom: 1px solid {border};
+    display: none !important;
 }}
 .main .block-container {{
     padding-top: 1.5rem;
     padding-bottom: 3rem;
     max-width: 1020px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+    transition: padding-top 0.35s ease;
+}}
+body.ep-scrolled .main .block-container {{
+    padding-top: 84px;
+}}
+
+/* ─── Hero (büyük başlık, içerik akışında) ───────────────────── */
+.editpdf-hero {{
+    text-align: center;
+    padding: 2.5rem 0 1rem;
+    max-height: 250px;
+    overflow: hidden;
+    transition: opacity 0.38s ease, transform 0.38s ease, max-height 0.45s ease, padding 0.38s ease;
+}}
+body.ep-scrolled .editpdf-hero {{
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    max-height: 0;
+    padding: 0;
+}}
+
+/* ─── Sabit Topbar (scroll'da belirir) ───────────────────────── */
+.editpdf-topbar {{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 64px;
+    z-index: 9997;
+    background: {bg_app};
+    border-bottom: 1px solid {border};
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.38s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
+}}
+body.ep-scrolled .editpdf-topbar {{
+    transform: translateY(0);
+    opacity: 1;
+}}
+.topbar-title {{
+    font-size: 1.7rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin: 0;
+}}
+.topbar-title .part-edit {{
+    background: linear-gradient(90deg, {accent_a}, {accent_b});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}}
+.topbar-title .part-pdf {{
+    color: #cc2222;
+    -webkit-text-fill-color: #cc2222;
+}}
+.topbar-subtitle {{
+    font-size: 0.72rem;
+    color: {subtitle_col};
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.3px;
 }}
 
 /* ─── Genel metin rengi ──────────────────────────────────────── */
@@ -200,28 +271,34 @@ p, span, li, div, h1, h2, h3, h4, h5, h6,
 /* ─── Tabs ───────────────────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {{
     background: {bg_tab_list};
-    border-radius: 14px;
-    padding: 5px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-    gap: 3px;
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    gap: 4px;
     flex-wrap: wrap;
+    border: 1px solid {border};
+    justify-content: center;
 }}
 .stTabs [data-baseweb="tab"] {{
-    border-radius: 10px;
-    font-weight: 500;
-    font-size: 0.88rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.82rem;
     color: {tab_text} !important;
-    padding: 0.45rem 1rem;
-    transition: background 0.15s, color 0.15s;
+    padding: 0.5rem 1.1rem;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    letter-spacing: 0.1px;
+    border: 1px solid transparent;
 }}
 .stTabs [data-baseweb="tab"]:hover {{
     background: {bg_tab_hover};
-    color: {text_primary} !important;
+    color: {accent_a} !important;
+    border-color: {border_accent};
 }}
 .stTabs [aria-selected="true"] {{
     background: linear-gradient(135deg, {accent_a} 0%, {accent_b} 100%) !important;
     color: #ffffff !important;
-    box-shadow: 0 3px 10px {sel_shadow};
+    box-shadow: 0 4px 14px {sel_shadow};
+    border-color: transparent !important;
 }}
 .stTabs [data-baseweb="tab-highlight"],
 .stTabs [data-baseweb="tab-border"] {{
@@ -280,23 +357,44 @@ p, span, li, div, h1, h2, h3, h4, h5, h6,
     transform: translateY(-1px);
 }}
 
-/* ─── Tema Butonu ────────────────────────────────────────────── */
-.theme-toggle-btn .stButton > button {{
-    background: transparent !important;
+/* ─── Tema Butonu (JS ile tab satırına hizalanır) ───────────── */
+.theme-toggle-btn {{
+    position: fixed !important;
+    right: 18px;
+    z-index: 9998;
+    transition: top 0.15s ease;
+}}
+.theme-toggle-btn > button {{
+    background: {bg_card} !important;
     border: 1.5px solid {border} !important;
     border-radius: 10px;
     color: {text_secondary} !important;
     font-size: 1.1rem;
     padding: 0.35rem 0.75rem;
-    box-shadow: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
     transition: border-color 0.15s, background 0.15s;
     min-height: auto;
 }}
-.theme-toggle-btn .stButton > button:hover {{
+.theme-toggle-btn > button:hover {{
     border-color: {accent_a} !important;
     background: {bg_tab_hover} !important;
     color: {accent_a} !important;
     transform: none;
+}}
+
+/* Tema butonunu içeren satırı sıfırla (buton JS ile fixed olacak) */
+[data-testid="stHorizontalBlock"]:has(button[title="Tema değiştir"]) {{
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}}
+[data-testid="stHorizontalBlock"]:has(button[title="Tema değiştir"]) > div {{
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
 }}
 
 /* ─── Dosya Yükleyici ────────────────────────────────────────── */
@@ -384,6 +482,12 @@ hr {{
     margin: 1.5rem 0;
 }}
 
+/* ─── Streamlit geniş layout mobil düzeltmesi ───────────────── */
+section[data-testid="stMain"] > div {{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}}
+
 /* ─── Footer ve Toolbar gizle ───────────────────────────────── */
 [data-testid="stToolbar"], #MainMenu, footer {{
     display: none !important;
@@ -402,12 +506,108 @@ hr {{
     color: {accent_a};
 }}
 
-/* ─── App başlık satırı ─────────────────────────────────────── */
-.app-header {{
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.25rem;
+/* ─── Responsive ────────────────────────────────────────────── */
+
+/* Hero başlık stilleri */
+.hero-title {{
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    margin: 0 0 0.4rem;
+}}
+.hero-title .part-edit {{
+    background: linear-gradient(90deg, {accent_a}, {accent_b});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}}
+.hero-title .part-pdf {{
+    color: #cc2222;
+    -webkit-text-fill-color: #cc2222;
+}}
+.hero-subtitle {{
+    font-size: 0.9rem;
+    color: {subtitle_col};
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}}
+
+/* Tablet (≤900px) */
+@media (max-width: 900px) {{
+    .main .block-container {{
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }}
+    .hero-title {{ font-size: 2.8rem; }}
+    .topbar-title {{ font-size: 1.4rem; }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 0.45rem 0.85rem;
+        font-size: 0.8rem;
+    }}
+}}
+
+/* Mobil (≤640px) */
+@media (max-width: 640px) {{
+    .main .block-container {{
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }}
+    body.ep-scrolled .main .block-container {{
+        padding-top: 72px;
+    }}
+    .editpdf-topbar {{ height: 56px; }}
+    .hero-title {{ font-size: 2.2rem; letter-spacing: -1px; }}
+    .topbar-title {{ font-size: 1.2rem; }}
+    .topbar-subtitle {{ font-size: 0.65rem; }}
+    .stTabs [data-baseweb="tab-list"] {{
+        border-radius: 12px;
+        padding: 4px;
+        gap: 3px;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 0.4rem 0.65rem;
+        font-size: 0.75rem;
+        border-radius: 9px;
+    }}
+    .stButton > button[kind="primary"],
+    .stButton > button[data-testid="baseButton-primary"] {{
+        width: 100%;
+        justify-content: center;
+    }}
+    .stDownloadButton > button {{
+        width: 100%;
+    }}
+    [data-testid="stFileUploaderDropzone"] {{
+        border-radius: 10px;
+    }}
+    [data-testid="stExpander"] details {{
+        border-radius: 10px;
+    }}
+    .editpdf-footer {{
+        font-size: 11px;
+    }}
+    /* Kolon layout'u mobilde dikey stack */
+    [data-testid="stHorizontalBlock"] {{
+        flex-wrap: wrap;
+    }}
+    [data-testid="stHorizontalBlock"] > [data-testid="stVerticalBlock"] {{
+        min-width: 100% !important;
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }}
+}}
+
+/* Küçük mobil (≤400px) */
+@media (max-width: 400px) {{
+    .topbar-title {{
+        font-size: 1.2rem;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 0.35rem 0.5rem;
+        font-size: 0.7rem;
+    }}
 }}
 </style>
 """
@@ -419,24 +619,99 @@ st.markdown(get_css(is_dark), unsafe_allow_html=True)
 # ══════════════════════════════════════════════════════════════
 # ── Başlık Satırı ─────────────────────────────────────────────
 # ══════════════════════════════════════════════════════════════
-col_title, col_toggle = st.columns([10, 1])
+# ── Scroll JS: hero→topbar animasyonu + tema butonu tab satırına hizalama ──
+st.markdown("""
+<script>
+(function() {
+    var SCROLL_T = 80;
 
-with col_title:
-    st.markdown(f"""
-    <div class="app-header">
-        <span style="font-size:1.9rem">📄</span>
-        <h1>{APP_NAME}</h1>
+    function getScrollY() {
+        // Streamlit'te window.scrollY her zaman 0'dır;
+        // gerçek scroll stAppViewContainer üzerinde olur.
+        var c = document.querySelector('[data-testid="stAppViewContainer"]');
+        if (c) return c.scrollTop;
+        var m = document.querySelector('.main');
+        if (m) return m.scrollTop;
+        return window.pageYOffset || 0;
+    }
+
+    function findThemeBtn() {
+        // title attribute ile dene (bazı Streamlit sürümlerinde help=title olur)
+        var b = document.querySelector('button[title="Tema değiştir"]');
+        if (b) return b;
+        // emoji içeriğiyle bul (daha evrensel yöntem)
+        var all = document.querySelectorAll('button');
+        for (var i = 0; i < all.length; i++) {
+            var t = all[i].textContent.trim();
+            if (t === '🌙' || t === '☀️') return all[i];
+        }
+        return null;
+    }
+
+    function alignThemeBtn() {
+        var btn = findThemeBtn();
+        if (!btn) return;
+        // .stButton wrapper'ına class ekle (CSS styling için)
+        var wrap = btn.closest('.stButton');
+        if (wrap && !wrap.classList.contains('theme-toggle-btn')) {
+            wrap.classList.add('theme-toggle-btn');
+        }
+        // Tab listesinin konumuna hizala
+        var tabs = document.querySelector('[data-baseweb="tab-list"]');
+        if (!tabs || !wrap) return;
+        var r = tabs.getBoundingClientRect();
+        var top = Math.max(8, r.top + Math.round((r.height - 36) / 2));
+        wrap.style.top = top + 'px';
+    }
+
+    function tick() {
+        document.body.classList.toggle('ep-scrolled', getScrollY() > SCROLL_T);
+        alignThemeBtn();
+    }
+
+    function bindScroll() {
+        var c = document.querySelector('[data-testid="stAppViewContainer"]');
+        if (c && !c._epBound) {
+            c.addEventListener('scroll', tick, {passive: true});
+            c._epBound = true;
+        }
+    }
+
+    // 200ms interval: scroll değişikliklerini ve Streamlit re-render'larını yakala
+    setInterval(function() { bindScroll(); tick(); }, 200);
+    bindScroll();
+    tick();
+})();
+</script>
+""", unsafe_allow_html=True)
+
+# ── Sabit Topbar (scroll'da belirir) ──────────────────────────
+st.markdown(f"""
+<div class="editpdf-topbar">
+    <div class="topbar-title">
+        <span class="part-edit">Edit</span><span class="part-pdf">PDF</span>
     </div>
-    <p class="app-subtitle">PDF işlemleri için web uygulaması &nbsp;·&nbsp; v{APP_VERSION_FULL} &nbsp;·&nbsp; {APP_VERSION_DATE}</p>
-    """, unsafe_allow_html=True)
+    <p class="topbar-subtitle">PDF araç kutusu</p>
+</div>
+""", unsafe_allow_html=True)
 
-with col_toggle:
-    st.markdown('<div class="theme-toggle-btn">', unsafe_allow_html=True)
+# ── Hero (büyük başlık, sayfa açılışında) ─────────────────────
+st.markdown(f"""
+<div class="editpdf-hero">
+    <div class="hero-title">
+        <span class="part-edit">Edit</span><span class="part-pdf">PDF</span>
+    </div>
+    <p class="hero-subtitle">PDF araç kutusu</p>
+</div>
+""", unsafe_allow_html=True)
+
+# ── Tema butonu (JS .stButton wrapper'ını bularak fixed konuma alır) ──
+_, _col_btn = st.columns([14, 1])
+with _col_btn:
     toggle_icon = "☀️" if is_dark else "🌙"
     if st.button(toggle_icon, key="theme_toggle", help="Tema değiştir"):
         st.session_state.theme = "light" if is_dark else "dark"
         st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # ── Tab Arayüzü ───────────────────────────────────────────────
 tabs = st.tabs([
